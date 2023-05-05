@@ -11,8 +11,6 @@ function useLocalStorage(key, initialValue) {
         }
     });
 
-    // ?
-    // further research on how this generic hook works. Why does it check for instance of function?
     const setValue = (value) => {
         try {
             const valueToStore = value instanceof Function ? value(storedValue) : value;
