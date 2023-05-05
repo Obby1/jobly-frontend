@@ -30,9 +30,7 @@ function CompanyDetail() {
                     <h3>Jobs</h3>
                     <ListGroup>
                         {company.jobs.map(job => (
-                            <ListGroup.Item key={job.id}>
-                                <JobCard job={job} />
-                            </ListGroup.Item>
+                            <JobCard job={job} />
                         ))}
                     </ListGroup>
                 </Col>
@@ -42,3 +40,36 @@ function CompanyDetail() {
 }
 
 export default CompanyDetail;
+
+
+// return (
+//     <Container>
+//         <Row>
+//             <Col>
+//                 <div>
+//                     <h2>Jobs</h2>
+//                     <input
+//                         type="text"
+//                         placeholder="Search jobs"
+//                         value={searchTerm}
+//                         onChange={handleSearch}
+//                         className="search-input"
+//                     />
+//                     {
+//                         jobs.length === 0 ? (
+//                             <div>
+//                                 <h2>No Results</h2>
+//                             </div>
+//                         ) : (
+//                             <ListGroup>
+//                                 {jobs.map(job => (
+//                                     <JobCard key={job.id} job={job} />
+//                                 ))}
+//                             </ListGroup>
+//                         )
+//                     }
+//                 </div>
+//             </Col>
+//         </Row>
+//     </Container>
+// );
