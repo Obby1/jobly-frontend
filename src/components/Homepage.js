@@ -16,7 +16,7 @@ function Homepage() {
               </Card.Title>
               <Card.Body>
                 <h3> Please use our navigation bar to browse. </h3>
-                <h3>100% fake jobs. 0% real dissapointment. </h3>
+                <h3>100% fake jobs. 0% real  disappointment. </h3>
               </Card.Body>
             </Card>
           ) : (
@@ -24,7 +24,7 @@ function Homepage() {
               <h2>Welcome to Jobly!</h2>
               <Card.Body>
                 <h3> Please create an account or login. </h3>
-                <h3>100% fake jobs. 0% real dissapointment. </h3>
+                <h3>100% fake jobs. 0% real  disappointment. </h3>
               </Card.Body>
             </Card>
           )}
