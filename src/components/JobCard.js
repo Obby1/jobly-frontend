@@ -1,41 +1,11 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
-import JoblyApi from '../api';
 import { Card, Button } from 'react-bootstrap';
 
 function JobCard({ job }) {
-    const { currentUser, updateCurrentUser } = useContext(UserContext);
-
-    async function handleApply() {
-        if (currentUser) {
-            await JoblyApi.applyToJob(currentUser.username, job.id);
-            updateCurrentUser({
-                ...currentUser,
-                applications: [...currentUser.applications, job.id],
-            });
-            alert('Applied successfully!');
-        } else {
-            alert('Please log in to apply for a job.');
-        }
-    }
-
-    async function handleUnapply() {
-        if (currentUser) {
-            await JoblyApi.unapplyToJob(currentUser.username, job.id);
-            updateCurrentUser({
-                ...currentUser,
-                applications: currentUser.applications.filter((jobId) => jobId !== job.id),
-            });
-            alert('Un-applied successfully!');
-        } else {
-            alert('Please log in to un-apply for a job.');
-        }
-    }
-
+    const { currentUser, applyForJob, unapplyForJob } = useContext(UserContext);
     const isApplied = currentUser?.applications?.includes(job.id);
-
-    // const isApplied = currentUser?.jobs?.some((appliedJob) => appliedJob.id === job.id);
 
     return (
         <Card className="JobCard mb-3" style={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}>
@@ -46,11 +16,11 @@ function JobCard({ job }) {
                 <Card.Text>Salary: {job.salary}</Card.Text>
                 <Card.Text>Equity: {job.equity}</Card.Text>
                 {isApplied ? (
-                    <Button variant="danger" onClick={handleUnapply}>
+                    <Button variant="danger" onClick={() => unapplyForJob(job.id)}>
                         Un-apply
                     </Button>
                 ) : (
-                    <Button variant="primary" onClick={handleApply}>
+                    <Button variant="primary" onClick={() => applyForJob(job.id)}>
                         Apply
                     </Button>
                 )}

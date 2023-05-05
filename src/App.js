@@ -21,13 +21,11 @@ const UserContext = createContext(null);
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  // const [token, setToken] = useState(null);
+
   const [token, setToken] = useLocalStorage('token', null);
 
-
-  // 5.2.23 save spot here - need to do something after log in. Log in and update state is now working
   useEffect(function loadUserInfo() {
-    console.debug("App useEffect loadUserInfo", "token=", token);
+    // console.debug("App useEffect loadUserInfo", "token=", token);
 
     async function getCurrentUser() {
       if (token) {
@@ -44,13 +42,8 @@ function App() {
           setCurrentUser(null);
         }
       }
-      // setInfoLoaded(true);
     }
 
-    // set infoLoaded to false while async getCurrentUser runs; once the
-    // data is fetched (or even if an error happens!), this will be set back
-    // to false to control the spinner.
-    // setInfoLoaded(false);
     getCurrentUser();
   }, [token]);
 
@@ -58,7 +51,6 @@ function App() {
 
   async function login(formData) {
     const newToken = await JoblyApi.loginUser(formData);
-    // console.log(formData)
     setToken(newToken);
     JoblyApi.token = newToken;
   }
@@ -86,8 +78,17 @@ function App() {
     }
   }
 
+  async function unapplyForJob(jobId) {
+    if (currentUser) {
+      await JoblyApi.unapplyToJob(currentUser.username, jobId);
+      const updatedUser = await JoblyApi.getCurrentUser(currentUser.username);
+      setCurrentUser(updatedUser);
+
+    }
+  }
+
   return (
-    <UserContext.Provider value={{ currentUser, updateCurrentUser, applyForJob }}>
+    <UserContext.Provider value={{ currentUser, updateCurrentUser, applyForJob, unapplyForJob }}>
       <div className="App">
         <Router>
           <Navbar currentUser={currentUser} logout={logout} />

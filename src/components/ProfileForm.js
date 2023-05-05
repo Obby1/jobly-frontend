@@ -2,18 +2,23 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../App';
 import JoblyApi from '../api';
 import JobCard from './JobCard';
-import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import '../css/ProfileForm.css'
 
 
 function ProfileForm() {
+
     const { currentUser, updateCurrentUser } = useContext(UserContext);
+
     const [formData, setFormData] = useState({
         firstName: currentUser.firstName || '',
         lastName: currentUser.lastName || '',
         email: currentUser.email || '',
     });
     const [appliedJobs, setAppliedJobs] = useState([]);
+
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
         async function fetchAppliedJobs() {
@@ -29,7 +34,16 @@ function ProfileForm() {
     async function handleSubmit(evt) {
         evt.preventDefault();
         const updatedUser = await JoblyApi.updateUser(currentUser.username, formData);
-        updateCurrentUser(updatedUser);
+        // updateCurrentUser(updatedUser);
+        // below works but leads to an extra API call
+        const jobIds = await JoblyApi.getAppliedJobs(currentUser.username);
+        updateCurrentUser({ ...updatedUser, applications: jobIds });
+        setShowAlert(true);
+    }
+
+
+    function handleAlertDismiss() {
+        setShowAlert(false);
     }
 
     function handleChange(evt) {
@@ -42,6 +56,12 @@ function ProfileForm() {
                 <Col xs={12} md={6}>
                     <Card className='edit-form-card' style={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}>
                         <Card.Body >
+                            {/*  */}
+                            {showAlert && (
+                                <Alert variant="success" onClose={handleAlertDismiss} dismissible>
+                                    Saved!
+                                </Alert>
+                            )}
                             <Form onSubmit={handleSubmit} >
                                 <Form.Group controlId="firstName">
                                     <Form.Label>First Name:</Form.Label>
@@ -83,13 +103,17 @@ function ProfileForm() {
             <Row>
                 <Col>
                     <div>
-                        <h2>Applied Jobs</h2>
+                        <h2>Applied Jobs: </h2>
                         {appliedJobs.length === 0 ? (
                             <div>
                                 <h2>No Results</h2>
+                                <LinkContainer to="/jobs">
+                                    <Button variant="primary">Click here for jobs</Button>
+                                </LinkContainer>
                             </div>
                         ) : (
                             appliedJobs.map((job) => <JobCard key={job.id} job={job} />)
+
                         )}
                     </div>
                 </Col>
@@ -99,3 +123,6 @@ function ProfileForm() {
 }
 
 export default ProfileForm;
+
+// Further study - implement useRef or another hook to avoid API call being made in handleSubmit
+// when I update the user form data. 
