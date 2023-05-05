@@ -4,6 +4,7 @@ Jobly is a full-stack web application created as a class project for Springboard
 
 ## Features
 
+[Visit the live site](https://outrageous-babies.surge.sh/)
 - User authentication (login, signup, and logout)
 - Browse and search for companies
 - Browse and search for jobs
