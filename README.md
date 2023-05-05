@@ -1,4 +1,3 @@
-<pre>
 # Jobly
 
 Jobly is a full-stack web application created as a class project for Springboard. This application connects to a custom Jobly backend, allowing users to explore and apply for jobs available on the platform. Jobly is designed to help job seekers find the right opportunities and employers to find the best candidates for their open positions.
@@ -47,4 +46,3 @@ You should now be able to access the Jobly application in your browser at `http:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-</pre>
