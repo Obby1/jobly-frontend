@@ -21,7 +21,11 @@ function Homepage() {
             </Card>
           ) : (
             <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: '1rem' }}>
-              <h2>Please create an account or log in to access more features.</h2>
+              <h2>Welcome to Jobly!</h2>
+              <Card.Body>
+                <h3> Please create an account or login. </h3>
+                <h3>100% fake jobs. 0% real dissapointment. </h3>
+              </Card.Body>
             </Card>
           )}
         </Col>
